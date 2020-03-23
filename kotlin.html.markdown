@@ -445,6 +445,72 @@ fun operatorOverloadingDemo() {
     counter1() // => The value of the counter is 36
     println(-counter2) // => Counter(value=-5)
 }
+
+/* 
+Arrays in Kotlin are represented by the Array class, that has get and set functions (that turn into [] by operator overloading conventions), and size property, along with a few other useful member functions:
+*/
+
+class Array<T> private constructor() {
+    val size: Int
+    operator fun get(index: Int): T
+    operator fun set(index: Int, value: T): Unit
+
+    operator fun iterator(): Iterator<T>
+    // ...
+}
+
+/*
+To create an array, we can use a library function arrayOf() and pass the item values to it, so that arrayOf(1, 2, 3) creates an array [1, 2, 3]. Alternatively, the arrayOfNulls() library function can be used to create an array of a given size filled with null elements.
+
+Another option is to use the Array constructor that takes the array size and the function that can return the initial value of each array element given its index:
+*/
+
+fun main() {
+    // Creates an Array<String> with values ["0", "1", "4", "9", "16"]
+    val asc = Array(5) { i -> (i * i).toString() }
+    asc.forEach { println(it) }
+}
+
+/*
+As we said above, the [] operation stands for calls to member functions get() and set()
+*/
+
+/*
+EXAMPLE: Palindrome leetcode question in kotlin
+
+*/
+class Solution {
+    fun isPalindrome(s: String): Boolean {
+        
+        if (s.isEmpty()) 
+            return true
+        
+        var copy = s.toLowerCase()
+        
+        copy = copy.filter( { c: Char -> if(c.isLetterOrDigit() && c != ' ') true else false})
+       
+        /* 
+        algorithm: search the array until indexL > indexR return flag isPalindrome
+        */
+        var isPalind = true
+        for (i in copy.indices) 
+        {
+            var oppositeIndex = copy.lastIndex - i;
+            if (i > oppositeIndex) 
+            {
+                break
+            }
+            else if (copy[i] != copy[oppositeIndex]) 
+            {
+                //println("copy[$i](${copy[i]}) != copy[$oppositeIndex](${copy[oppositeIndex]})")
+                isPalind = false
+            }
+        }
+        
+        return isPalind
+    }
+}
+
 ```
 
 ### Further Reading
