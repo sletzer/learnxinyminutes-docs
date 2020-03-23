@@ -476,6 +476,49 @@ As we said above, the [] operation stands for calls to member functions get() an
 */
 
 /*
+Lambdas in Kotlin
+*/
+//full syntax:
+val sum: (Int, Int) -> Int = { x: Int, y: Int -> x + y }
+
+/*
+A lambda expression is always surrounded by curly braces, parameter declarations in the full syntactic form go inside curly braces and have optional type annotations, the body goes after an -> sign. If the inferred return type of the lambda is not Unit, the last (or possibly single) expression inside the lambda body is treated as the return value.
+
+If we leave all the optional annotations out, what's left looks like this:
+*/
+val sum = { x: Int, y: Int -> x + y }
+
+/*
+In Kotlin, there is a convention (called TRAILING LAMBDAS): if the last parameter of a function is a function, then a lambda expression passed as the corresponding argument can be placed outside the parentheses:
+*/
+val product = items.fold(1) { acc, e -> acc * e }
+
+
+/*
+It's very common that a lambda expression has only one parameter.
+
+If the compiler can figure the signature out itself, it is allowed not to declare the only parameter and omit ->. The parameter will be implicitly declared under the name it:
+*/
+
+ints.filter { it > 0 } // this literal is of type '(it: Int) -> Boolean'
+
+/*
+We can explicitly return a value from the lambda using the qualified return syntax. Otherwise, the value of the last expression is implicitly returned.
+
+Therefore, the two following snippets are equivalent:
+*/
+ints.filter {
+    val shouldFilter = it > 0 
+    shouldFilter
+}
+
+ints.filter {
+    val shouldFilter = it > 0 
+    return@filter shouldFilter
+}
+
+
+/*
 EXAMPLE: Palindrome leetcode question in kotlin
 
 */
